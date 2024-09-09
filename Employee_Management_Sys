@@ -1,0 +1,95 @@
+CREATE TABLE `employees` (
+  `id` INTEGER PRIMARY KEY,
+  `first_name` VARCHAR(255),
+  `last_name` VARCHAR(255),
+  `email` VARCHAR(255) UNIQUE,
+  `phone` VARCHAR(255),
+  `hire_date` DATE,
+  `position` VARCHAR(255)
+);
+
+CREATE TABLE `payroll` (
+  `id` INTEGER PRIMARY KEY,
+  `employee_id` INTEGER COMMENT 'References employees.id',
+  `salary` DECIMAL,
+  `pay_date` DATE,
+  `payment_method` VARCHAR(255),
+  FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`)
+);
+
+CREATE TABLE `benefits` (
+  `id` INTEGER PRIMARY KEY,
+  `employee_id` INTEGER COMMENT 'References employees.id',
+  `benefit_type` VARCHAR(255),
+  `benefit_details` VARCHAR(255),
+  `enrollment_date` DATE,
+  FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`)
+);
+
+CREATE TABLE `departments` (
+  `id` INTEGER PRIMARY KEY,
+  `department_name` VARCHAR(255),
+  `manager_id` INTEGER COMMENT 'References employees.id',
+  `location` VARCHAR(255),
+  FOREIGN KEY (`manager_id`) REFERENCES `employees` (`id`)
+);
+
+CREATE TABLE `training` (
+  `id` INTEGER PRIMARY KEY,
+  `employee_id` INTEGER COMMENT 'References employees.id',
+  `training_title` VARCHAR(255),
+  `training_provider` VARCHAR(255),
+  `completion_date` DATE,
+  `certificate_number` VARCHAR(255),
+  FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`)
+);
+
+-- Insert into employees
+INSERT INTO `employees` (`id`, `first_name`, `last_name`, `email`, `phone`, `hire_date`, `position`)
+VALUES
+(1, 'Juan', 'Dela Cruz', 'juan.delacruz@example.com', '09171234567', '2023-01-15', 'Software Engineer'),
+(2, 'Maria', 'Santos', 'maria.santos@example.com', '09182345678', '2023-03-22', 'HR Manager'),
+(3, 'Jose', 'Reyes', 'jose.reyes@example.com', '09193456789', '2023-05-10', 'Marketing Specialist'),
+(4, 'Ana', 'Gonzalez', 'ana.gonzalez@example.com', '09184567890', '2023-07-14', 'Sales Associate'),
+(5, 'Luis', 'Perez', 'luis.perez@example.com', '09175678901', '2023-08-30', 'Financial Analyst'),
+(6, 'Sofia', 'Luna', 'sofia.luna@example.com', '09186789012', '2023-09-05', 'Customer Support');
+
+-- Insert into payroll
+INSERT INTO `payroll` (`id`, `employee_id`, `salary`, `pay_date`, `payment_method`)
+VALUES
+(1, 1, 60000.00, '2024-09-01', 'Bank Transfer'),
+(2, 2, 75000.00, '2024-09-01', 'Bank Transfer'),
+(3, 3, 55000.00, '2024-09-01', 'Cash'),
+(4, 4, 45000.00, '2024-09-01', 'Bank Transfer'),
+(5, 5, 70000.00, '2024-09-01', 'Cash'),
+(6, 6, 40000.00, '2024-09-01', 'Bank Transfer');
+
+-- Insert into benefits
+INSERT INTO `benefits` (`id`, `employee_id`, `benefit_type`, `benefit_details`, `enrollment_date`)
+VALUES
+(1, 1, 'Health Insurance', 'PhilHealth Plan A', '2024-01-10'),
+(2, 2, 'Retirement Plan', 'SSS Pension Fund', '2024-03-25'),
+(3, 3, 'Travel Allowance', 'Monthly Travel Pass', '2024-05-12'),
+(4, 4, 'Meal Allowance', 'Daily Meal Voucher', '2024-07-20'),
+(5, 5, 'Health Insurance', 'HMO Coverage', '2024-08-15'),
+(6, 6, 'Work-from-Home Setup', 'Internet and Utilities Subsidy', '2024-09-01');
+
+-- Insert into departments
+INSERT INTO `departments` (`id`, `department_name`, `manager_id`, `location`)
+VALUES
+(1, 'Engineering', 1, 'Cavite'),
+(2, 'Human Resources', 2, 'Manila'),
+(3, 'Marketing', 3, 'Manila'),
+(4, 'Sales', 4, 'Cavite'),
+(5, 'Finance', 5, 'Manila'),
+(6, 'Customer Service', 6, 'Cavite');
+
+-- Insert into training
+INSERT INTO `training` (`id`, `employee_id`, `training_title`, `training_provider`, `completion_date`, `certificate_number`)
+VALUES
+(1, 1, 'Advanced Python Programming', 'Code Academy', '2024-06-15', 'AC-12345'),
+(2, 2, 'HR Management Essentials', 'HR Institute', '2024-04-10', 'HR-54321'),
+(3, 3, 'Digital Marketing Strategies', 'Marketing Hub', '2024-07-20', 'DM-67890'),
+(4, 4, 'Sales Techniques', 'Sales Masters', '2024-08-25', 'ST-98765'),
+(5, 5, 'Financial Analysis Fundamentals', 'Finance Experts', '2024-09-01', 'FA-24680'),
+(6, 6, 'Customer Service Excellence', 'Service Training Co.', '2024-09-15', 'CS-13579');
